@@ -24,14 +24,26 @@ declare(strict_types=1);
 namespace PJZ9n\UltimateCasino;
 
 use PJZ9n\PluginUtils2\ResourceUtils;
+use pocketmine\lang\BaseLang;
 use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase
 {
+    /** @var BaseLang */
+    private $lang;
+    
     public function onEnable(): void
     {
         //config
         $this->saveDefaultConfig();
         ResourceUtils::updateConfig($this);
+        //i18n
+        ResourceUtils::saveLanguageFiles($this);
+        $lang = $this->getConfig()->get("lang");
+        if ($lang === "default") {
+            $lang = $this->getServer()->getLanguage()->getLang();
+        }
+        $this->lang = new BaseLang((string)$lang, $this->getDataFolder() . "locale/", "jpn");
+        $this->getLogger()->info($this->lang->translateString("language.selected", [$this->lang->getName()]));
     }
 }
