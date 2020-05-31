@@ -4,5 +4,7 @@ branches:
   - master
 projects:
   UltimateCasino:
-    path: ""
+    libs:
+      - src: PJZ9n/PluginUtils2/PluginUtils2
+        version: 1.1.2
 ...
