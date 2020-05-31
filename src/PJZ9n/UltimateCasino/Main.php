@@ -28,8 +28,6 @@ use PJZ9n\PluginUtils2\Update\UpdateChecker;
 use PJZ9n\PluginUtils2\Update\UpdateDescription;
 use pocketmine\lang\BaseLang;
 use pocketmine\plugin\PluginBase;
-use const pocketmine\NAME;
-use const pocketmine\VERSION;
 
 class Main extends PluginBase
 {
@@ -52,7 +50,7 @@ class Main extends PluginBase
         //update
         $currentVersion = $this->getDescription()->getVersion();
         $url = "https://api.github.com/repos/PJZ9n/UltimateCasino/releases/latest";
-        $userAgent = NAME . " " . VERSION;
+        $userAgent = $this->getServer()->getName() . " " . $this->getServer()->getPocketMineVersion();
         $callback = function (?UpdateDescription $description): void {
             if ($description === null) return;
             $version = $description->getTagName();
