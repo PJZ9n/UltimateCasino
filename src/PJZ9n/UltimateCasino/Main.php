@@ -23,9 +23,15 @@ declare(strict_types=1);
 
 namespace PJZ9n\UltimateCasino;
 
+use PJZ9n\PluginUtils2\ResourceUtils;
 use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase
 {
-    //
+    public function onEnable(): void
+    {
+        //config
+        $this->saveDefaultConfig();
+        ResourceUtils::updateConfig($this);
+    }
 }
