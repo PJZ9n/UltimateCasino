@@ -24,8 +24,12 @@ declare(strict_types=1);
 namespace PJZ9n\UltimateCasino;
 
 use PJZ9n\PluginUtils2\ResourceUtils;
+use PJZ9n\PluginUtils2\Update\UpdateChecker;
+use PJZ9n\PluginUtils2\Update\UpdateDescription;
 use pocketmine\lang\BaseLang;
 use pocketmine\plugin\PluginBase;
+use const pocketmine\NAME;
+use const pocketmine\VERSION;
 
 class Main extends PluginBase
 {
@@ -45,5 +49,16 @@ class Main extends PluginBase
         }
         $this->lang = new BaseLang((string)$lang, $this->getDataFolder() . "locale/", "jpn");
         $this->getLogger()->info($this->lang->translateString("language.selected", [$this->lang->getName()]));
+        //update
+        $currentVersion = $this->getDescription()->getVersion();
+        $url = "https://api.github.com/repos/PJZ9n/UltimateCasino/releases/latest";
+        $userAgent = NAME . " " . VERSION;
+        $callback = function (?UpdateDescription $description): void {
+            if ($description === null) return;
+            $version = $description->getTagName();
+            $url = $description->getHtmlUrl();
+            $this->getLogger()->info($this->lang->translateString("update.found", [$version, $url]));
+        };
+        UpdateChecker::check($currentVersion, $url, $userAgent, $callback);
     }
 }
